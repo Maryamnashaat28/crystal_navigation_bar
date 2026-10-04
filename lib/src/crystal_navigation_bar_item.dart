@@ -25,7 +25,14 @@ class CrystalNavigationBarItem {
     this.unselectedColor,
     this.badge,
   }) : assert(icon is IconData, 'Icon must be of type IconData');
-
+  /// Creates a navigation bar item with an IconData icon.
+  CrystalNavigationBarItem.widget({
+    required this.icon,
+    this.unselectedIcon,
+    this.selectedColor,
+    this.unselectedColor,
+    this.badge,
+}):assert(icon is Widget);
   /// Creates a navigation bar item with an SVG asset.
   CrystalNavigationBarItem.svg({
     required String iconPath,
@@ -39,7 +46,8 @@ class CrystalNavigationBarItem {
 
   /// Whether this item uses an SVG asset.
   bool get isSvg => icon is String && (icon as String).endsWith('.svg');
-
   /// Whether this item uses an IconData icon.
-  bool get isIcon => !isSvg;
+  bool get isIcon => icon is IconData;
+  /// Whether this item uses an widget icon.
+  bool get isWidget => icon is Widget;
 }
