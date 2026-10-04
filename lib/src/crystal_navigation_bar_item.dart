@@ -16,7 +16,8 @@ class CrystalNavigationBarItem {
 
   /// The color to display when this tab is not selected.
   final Color? unselectedColor;
-
+ final bool? isWidget;
+ final bool? isIcon;
   /// Creates a navigation bar item with an IconData icon.
   CrystalNavigationBarItem({
     required this.icon,
@@ -24,7 +25,10 @@ class CrystalNavigationBarItem {
     this.selectedColor,
     this.unselectedColor,
     this.badge,
-  }) : assert(icon is IconData, 'Icon must be of type IconData');
+     bool? isWidget,
+    bool? isIcon,
+  }) : isIcon = isIcon ?? (icon is IconData),
+        isWidget = isWidget ?? (icon is Widget);
   /// Creates a navigation bar item with an IconData icon.
   CrystalNavigationBarItem.widget({
     required this.icon,
@@ -32,7 +36,8 @@ class CrystalNavigationBarItem {
     this.selectedColor,
     this.unselectedColor,
     this.badge,
-}):assert(icon is Widget);
+}): isIcon = false,
+  isWidget = true;
   /// Creates a navigation bar item with an SVG asset.
   CrystalNavigationBarItem.svg({
     required String iconPath,
@@ -42,12 +47,10 @@ class CrystalNavigationBarItem {
     this.badge,
   })  : icon = iconPath,
         unselectedIcon = unselectedIconPath ?? iconPath,
+        isIcon = false,
+        isWidget = false,
         assert(iconPath.endsWith('.svg'), 'SVG path must end with .svg');
 
   /// Whether this item uses an SVG asset.
   bool get isSvg => icon is String && (icon as String).endsWith('.svg');
-  /// Whether this item uses an IconData icon.
-  bool get isIcon => icon is IconData;
-  /// Whether this item uses an widget icon.
-  bool get isWidget => icon is Widget;
 }

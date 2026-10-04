@@ -121,27 +121,58 @@ class Body extends StatelessWidget {
       ],
     );
   }
+  // Widget _buildIcon(CrystalNavigationBarItem item, bool isSelected,
+  //     Color? selectedColor, Color? unselectedColor, double t) {
+  //   if (item.isWidget) {
+  //     return item.icon as Widget;
+  //   }
+  //   if (item.isIcon) {
+  //     return Icon(
+  //       isSelected ? item.icon : (item.unselectedIcon ?? item.icon),
+  //       size: 24,
+  //       color: Color.lerp(unselectedColor, selectedColor, t),
+  //     );
+  //   }
+  //   return SvgPicture.asset(
+  //     isSelected ? item.icon : (item.unselectedIcon ?? item.icon),
+  //     width: 24,
+  //     height: 24,
+  //     colorFilter: ColorFilter.mode(
+  //       Color.lerp(unselectedColor, selectedColor, t)!,
+  //       BlendMode.srcIn,
+  //     ),
+  //   );
+  // }
   Widget _buildIcon(CrystalNavigationBarItem item, bool isSelected,
       Color? selectedColor, Color? unselectedColor, double t) {
-    if (item.isWidget) {
-      return item.icon as Widget;
+
+    final dynamic activeIcon = isSelected
+        ? item.icon
+        : (item.unselectedIcon ?? item.icon);
+    if (item.isWidget! || activeIcon is Widget) {
+      return activeIcon as Widget;
     }
-    if (item.isIcon) {
+
+    if (item.isIcon! || activeIcon is IconData) {
       return Icon(
-        isSelected ? item.icon : (item.unselectedIcon ?? item.icon),
+        activeIcon as IconData,
         size: 24,
         color: Color.lerp(unselectedColor, selectedColor, t),
       );
     }
-    return SvgPicture.asset(
-      isSelected ? item.icon : (item.unselectedIcon ?? item.icon),
-      width: 24,
-      height: 24,
-      colorFilter: ColorFilter.mode(
-        Color.lerp(unselectedColor, selectedColor, t)!,
-        BlendMode.srcIn,
-      ),
-    );
+
+    if (item.isSvg || activeIcon is String) {
+      return SvgPicture.asset(
+        activeIcon as String,
+        width: 24,
+        height: 24,
+        colorFilter: ColorFilter.mode(
+          Color.lerp(unselectedColor, selectedColor, t)!,
+          BlendMode.srcIn,
+        ),
+      );
+    }
+    return const SizedBox.shrink();
   }
   // Widget _buildIcon(CrystalNavigationBarItem item, bool isSelected,
   //     Color? selectedColor, Color? unselectedColor, double t) {
