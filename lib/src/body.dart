@@ -132,7 +132,9 @@ class Body extends StatelessWidget {
             size: 24,
             color: Color.lerp(unselectedColor, selectedColor, t),
           )
-        : SvgPicture.asset(
+        : item.isWidget?
+            item.icon as Widget:
+    SvgPicture.asset(
             items.indexOf(item) == currentIndex
                 ? item.icon
                 : (item.unselectedIcon ?? item.icon),
