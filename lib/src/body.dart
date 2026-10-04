@@ -121,29 +121,50 @@ class Body extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildIcon(CrystalNavigationBarItem item, bool isSelected,
       Color? selectedColor, Color? unselectedColor, double t) {
-    return item.isIcon
-        ? Icon(
-            items.indexOf(item) == currentIndex
-                ? item.icon
-                : (item.unselectedIcon ?? item.icon),
-            size: 24,
-            color: Color.lerp(unselectedColor, selectedColor, t),
-          )
-        : item.isWidget?
-            item.icon as Widget:
-    SvgPicture.asset(
-            items.indexOf(item) == currentIndex
-                ? item.icon
-                : (item.unselectedIcon ?? item.icon),
-            width: 24,
-            height: 24,
-            colorFilter: ColorFilter.mode(
-              Color.lerp(unselectedColor, selectedColor, t)!,
-              BlendMode.srcIn,
-            ),
-          );
+    if (item.isWidget) {
+      return item.icon as Widget;
+    }
+    if (item.isIcon) {
+      return Icon(
+        isSelected ? item.icon : (item.unselectedIcon ?? item.icon),
+        size: 24,
+        color: Color.lerp(unselectedColor, selectedColor, t),
+      );
+    }
+    return SvgPicture.asset(
+      isSelected ? item.icon : (item.unselectedIcon ?? item.icon),
+      width: 24,
+      height: 24,
+      colorFilter: ColorFilter.mode(
+        Color.lerp(unselectedColor, selectedColor, t)!,
+        BlendMode.srcIn,
+      ),
+    );
   }
+  // Widget _buildIcon(CrystalNavigationBarItem item, bool isSelected,
+  //     Color? selectedColor, Color? unselectedColor, double t) {
+  //   return item.isIcon
+  //       ? Icon(
+  //           items.indexOf(item) == currentIndex
+  //               ? item.icon
+  //               : (item.unselectedIcon ?? item.icon),
+  //           size: 24,
+  //           color: Color.lerp(unselectedColor, selectedColor, t),
+  //         )
+  //       : item.isWidget?
+  //           item.icon as Widget:
+  //   SvgPicture.asset(
+  //           items.indexOf(item) == currentIndex
+  //               ? item.icon
+  //               : (item.unselectedIcon ?? item.icon),
+  //           width: 24,
+  //           height: 24,
+  //           colorFilter: ColorFilter.mode(
+  //             Color.lerp(unselectedColor, selectedColor, t)!,
+  //             BlendMode.srcIn,
+  //           ),
+  //         );
+  // }
 }
